@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/MSEDCLStores_1.js"></script>
+        <script src="data/4_NashikToJalgaon_2.js"></script>
+        <script src="data/3_AhmednagarToNashik_3.js"></script>
+        <script src="data/2_SangliToAhmednagar_4.js"></script>
+        <script src="data/1_ZenMetertoSangli_5.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleRoad_0');
+        map.getPane('pane_GoogleRoad_0').style.zIndex = 400;
+        var layer_GoogleRoad_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleRoad_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleRoad_0;
+        map.addLayer(layer_GoogleRoad_0);
+        function pop_MSEDCLStores_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Sr. No.</th>\
+                        <td>' + (feature.properties['Sr. No.'] !== null ? autolinker.link(feature.properties['Sr. No.'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Region</th>\
+                        <td>' + (feature.properties['Region'] !== null ? autolinker.link(feature.properties['Region'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Store Name</th>\
+                        <td>' + (feature.properties['Store Name'] !== null ? autolinker.link(feature.properties['Store Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Address</th>\
+                        <td>' + (feature.properties['Address'] !== null ? autolinker.link(feature.properties['Address'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Latitude</th>\
+                        <td>' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Longitude</th>\
+                        <td>' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_MSEDCLStores_1_0(feature) {
+            switch(String(feature.properties['Region'])) {
+                case 'Aurangabad':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 8.25,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(48,18,59,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Konkan':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 8.25,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,188,235,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Nagpur':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 8.25,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,252,60,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pune':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 8.25,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,126,33,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 8.25,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,4,3,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_MSEDCLStores_1_1(feature) {
+            switch(String(feature.properties['Region'])) {
+                case 'Aurangabad':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(48,18,59,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Konkan':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,188,235,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Nagpur':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,252,60,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pune':
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,126,33,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_MSEDCLStores_1',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,4,3,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_MSEDCLStores_1');
+        map.getPane('pane_MSEDCLStores_1').style.zIndex = 401;
+        map.getPane('pane_MSEDCLStores_1').style['mix-blend-mode'] = 'normal';
+        var layer_MSEDCLStores_1 = new L.geoJson.multiStyle(json_MSEDCLStores_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_MSEDCLStores_1',
+            layerName: 'layer_MSEDCLStores_1',
+            pane: 'pane_MSEDCLStores_1',
+            onEachFeature: pop_MSEDCLStores_1,
+            pointToLayers: [function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_MSEDCLStores_1_0(feature));
+            },function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_MSEDCLStores_1_1(feature));
+            },
+        ]});
+        bounds_group.addLayer(layer_MSEDCLStores_1);
+        map.addLayer(layer_MSEDCLStores_1);
+        function pop_4_NashikToJalgaon_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_4_NashikToJalgaon_2_0() {
+            return {
+                pane: 'pane_4_NashikToJalgaon_2',
+                opacity: 1,
+                color: 'rgba(193,136,31,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_4_NashikToJalgaon_2');
+        map.getPane('pane_4_NashikToJalgaon_2').style.zIndex = 402;
+        map.getPane('pane_4_NashikToJalgaon_2').style['mix-blend-mode'] = 'normal';
+        var layer_4_NashikToJalgaon_2 = new L.geoJson(json_4_NashikToJalgaon_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_4_NashikToJalgaon_2',
+            layerName: 'layer_4_NashikToJalgaon_2',
+            pane: 'pane_4_NashikToJalgaon_2',
+            onEachFeature: pop_4_NashikToJalgaon_2,
+            style: style_4_NashikToJalgaon_2_0,
+        });
+        bounds_group.addLayer(layer_4_NashikToJalgaon_2);
+        map.addLayer(layer_4_NashikToJalgaon_2);
+        function pop_3_AhmednagarToNashik_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_3_AhmednagarToNashik_3_0() {
+            return {
+                pane: 'pane_3_AhmednagarToNashik_3',
+                opacity: 1,
+                color: 'rgba(216,97,12,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_3_AhmednagarToNashik_3');
+        map.getPane('pane_3_AhmednagarToNashik_3').style.zIndex = 403;
+        map.getPane('pane_3_AhmednagarToNashik_3').style['mix-blend-mode'] = 'normal';
+        var layer_3_AhmednagarToNashik_3 = new L.geoJson(json_3_AhmednagarToNashik_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_3_AhmednagarToNashik_3',
+            layerName: 'layer_3_AhmednagarToNashik_3',
+            pane: 'pane_3_AhmednagarToNashik_3',
+            onEachFeature: pop_3_AhmednagarToNashik_3,
+            style: style_3_AhmednagarToNashik_3_0,
+        });
+        bounds_group.addLayer(layer_3_AhmednagarToNashik_3);
+        map.addLayer(layer_3_AhmednagarToNashik_3);
+        function pop_2_SangliToAhmednagar_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_2_SangliToAhmednagar_4_0() {
+            return {
+                pane: 'pane_2_SangliToAhmednagar_4',
+                opacity: 1,
+                color: 'rgba(8,122,14,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_2_SangliToAhmednagar_4');
+        map.getPane('pane_2_SangliToAhmednagar_4').style.zIndex = 404;
+        map.getPane('pane_2_SangliToAhmednagar_4').style['mix-blend-mode'] = 'normal';
+        var layer_2_SangliToAhmednagar_4 = new L.geoJson(json_2_SangliToAhmednagar_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_2_SangliToAhmednagar_4',
+            layerName: 'layer_2_SangliToAhmednagar_4',
+            pane: 'pane_2_SangliToAhmednagar_4',
+            onEachFeature: pop_2_SangliToAhmednagar_4,
+            style: style_2_SangliToAhmednagar_4_0,
+        });
+        bounds_group.addLayer(layer_2_SangliToAhmednagar_4);
+        map.addLayer(layer_2_SangliToAhmednagar_4);
+        function pop_1_ZenMetertoSangli_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_1_ZenMetertoSangli_5_0() {
+            return {
+                pane: 'pane_1_ZenMetertoSangli_5',
+                opacity: 1,
+                color: 'rgba(35,35,173,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_1_ZenMetertoSangli_5');
+        map.getPane('pane_1_ZenMetertoSangli_5').style.zIndex = 405;
+        map.getPane('pane_1_ZenMetertoSangli_5').style['mix-blend-mode'] = 'normal';
+        var layer_1_ZenMetertoSangli_5 = new L.geoJson(json_1_ZenMetertoSangli_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_1_ZenMetertoSangli_5',
+            layerName: 'layer_1_ZenMetertoSangli_5',
+            pane: 'pane_1_ZenMetertoSangli_5',
+            onEachFeature: pop_1_ZenMetertoSangli_5,
+            style: style_1_ZenMetertoSangli_5_0,
+        });
+        bounds_group.addLayer(layer_1_ZenMetertoSangli_5);
+        map.addLayer(layer_1_ZenMetertoSangli_5);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_MSEDCLStores_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Store Name'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        </script>
+    </body>
+</html>
